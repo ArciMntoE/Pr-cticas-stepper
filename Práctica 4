@@ -1,0 +1,38 @@
+#include <Stepper.h>
+
+const int stepsPerRevolution = 32;
+Stepper myStepper(stepsPerRevolution, 8, 10, 9, 11);
+
+const int pul = 7;
+const int joy = 12;
+
+int pulState = 0;
+int joyState = 0;
+
+void setup() {
+  myStepper.setSpeed(500);
+  pinMode(pul, INPUT_PULLUP);
+  pinMode(joy, INPUT_PULLUP);
+  Serial.begin(9600);
+}
+
+void loop() {
+  pulState = digitalRead(pul);
+  joyState = digitalRead(joy);
+
+  if (pulState == LOW) {
+    myStepper.step(512);
+    delay(500);
+  }
+
+  if (joyState == LOW) {
+    myStepper.step(-512);
+    delay(500);
+  }
+
+Serial.print(pulState);
+Serial.print("\t");
+Serial.println(joyState);
+Serial.println("\t");
+delay(00);
+}
